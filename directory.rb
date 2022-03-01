@@ -32,7 +32,7 @@ def input_students
     country = gets.chomp
     puts "Height in centimetres"
     height = gets.chomp
-    
+
   end
   @students
 end
@@ -42,13 +42,13 @@ def print_header
   puts ("-------------").center(50, "------------------")
 end
 
-def print(students)
+def print_students_list
   @students.each.with_index(1) do |student, index|
     puts ("#{index}. #{student[:name]} (#{student[:cohort]} cohort)").center(50)
   end
 end
 
-def print_footer(students)
+def print_footer
   if @students.count == 1
     puts ("Overall, we have #{@students.count} great student").center(50)
   else
@@ -64,8 +64,8 @@ end
 
 def show_students
   print_header
-  print(@students)
-  print_footer(@students)
+  print_students_list
+  print_footer
 end
 
 def process(selection)
