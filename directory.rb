@@ -3,14 +3,14 @@
 def input_students
   puts "Please enter the details of the students"
   puts "To finish, hit return four times"  
-  puts "Name"
+  print "Name?  "
   name = gets.chomp
-  puts "Cohort"
+  print "Cohort?  "
   cohort = gets.chomp
   cohort = "March" if cohort.empty?
-  puts "Country of birth"
+  print "Country of birth?  "
   country = gets.chomp
-  puts "Height in centimetres"
+  print "Height in centimetres?  "
   height = gets.chomp
 
 
@@ -23,14 +23,14 @@ def input_students
 
     puts "Now we have #{@students.count} students"
 
-    puts "Name"
+    print "Name?  "
     name = gets.chomp
-    puts "Cohort"
+    print "Cohort?  "
     cohort = gets.chomp
     cohort = "March" if cohort.empty?
-    puts "Country of birth"
+    print "Country of birth?  "
     country = gets.chomp
-    puts "Height in centimetres"
+    print "Height in centimetres?  "
     height = gets.chomp
 
   end
@@ -59,6 +59,7 @@ end
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
+  puts "3. Save the list to students.csv"
   puts "9. Exit"
 end
 
@@ -75,7 +76,7 @@ def process(selection)
     when "2"
       show_students
     when "3"
-  
+      save_students
     when "4"
   
     when "5"
@@ -99,6 +100,18 @@ def interactive_menu
     print_menu 
     process(gets.chomp)
   end
+end
+
+
+def save_students
+  file = File.open("students.csv", "w")
+
+  @students.each do |student|
+    student_data = [student[:name], student[:cohort], student[:country], student[:height]]
+    csv_line = student_data.join(",")
+    file.puts csv_line
+  end
+  file.close
 end
 
 interactive_menu
