@@ -60,10 +60,47 @@ def print_footer(students)
   end
 end
 
-students = input_students
-if students.length == 0
-  break
+def interactive_menu
+  students = []
+  loop do
+    puts "1. Input the students"
+    puts "2. Show the students"
+    puts "9. Exit"
+    
+    selection = gets.chomp
+
+    case selection
+    when "1"
+      students = input_students
+    when "2"
+      print_header
+      print_march(students)
+      print_footer(students)
+    when "3"
+      
+    when "4"
+      
+    when "5"
+     
+    when "6"
+    
+    when "7"
+     
+    when "8"
+    
+    when "9"
+      exit 
+    else
+      puts "I'm not sure what you meant, try again"
+      puts "Type a number"
+    end
+  end
 end
-print_header
-print_march(students)
-print_footer(students)
+
+interactive_menu
+
+loop do
+  if students.length == 0
+    break
+  end
+end
