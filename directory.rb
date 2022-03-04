@@ -5,38 +5,33 @@
 @height = ""
 @filename = ""
 
+def load_students
+  if ARGV.first == nil
+    @filename = "students.csv"
+  end
+  if File.exists?(@filename)
+    File.open(@filename, "r") do |file|
+      file.readlines.each do |line|
+        @name, @cohort, @country, @height = line.chomp.split(',')
+        student_info_to_hash
+      end
+    end
+    puts "Loaded all students from #{@filename}"
+  else
+    puts "Sorry, #{@filename} doesn't exist."
+    exit
+  end
+end
+
 def student_info_to_hash
   @students << {name: @name, cohort: @cohort, country: @country, height: @height}
 end
 
-def get_info_about_students
-  print "\n", "Name?  "  
-  @name = STDIN.gets.chomp
-  print "Cohort?  "  
-  @cohort = STDIN.gets.chomp
-  @cohort = "March" if @cohort.empty?
-  print "Country of birth?  "  
-  @country = STDIN.gets.chomp
-  print "Height in centimetres?  "  
-  @height = STDIN.gets.chomp
-end
-
-def input_students
-  print "\n", "Please enter the details of the students", "\n", "To finish, hit return four times", "\n"
-  get_info_about_students
-  while !@name.empty? && !@country.empty? && !@height.empty? do
-    student_info_to_hash
-    puts "The current total of students is #{@students.count}"
-    get_info_about_students
+def interactive_menu
+  loop do
+    print_menu 
+    process(STDIN.gets.chomp)
   end
-end
-
-def show_students
-  print "\n", ("The students of Villains Academy").center(50), "\n", ("-------------").center(50, "------------------"), "\n"
-  @students.each.with_index(1) do |student, index|
-    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort, #{student[:height]}cm, #{student[:country]})"
-  end
-  print ("-------------").center(50, "------------------"), "\n", ("That's all the students!").center(50), "\n", "\n"
 end
 
 def print_menu
@@ -60,30 +55,34 @@ def process(selection)
   end
 end
 
-def interactive_menu
-  loop do
-    print_menu 
-    process(STDIN.gets.chomp)
+def input_students
+  print "\n", "Please enter the details of the students", "\n", "To finish, hit return four times", "\n"
+  get_info_about_students
+  while !@name.empty? && !@country.empty? && !@height.empty? do
+    student_info_to_hash
+    puts "The current total of students is #{@students.count}"
+    get_info_about_students
   end
 end
-  
 
-def load_students
-  if ARGV.first == nil
-    @filename = "students.csv"
+def get_info_about_students
+  print "\n", "Name?  "  
+  @name = STDIN.gets.chomp
+  print "Cohort?  "  
+  @cohort = STDIN.gets.chomp
+  @cohort = "March" if @cohort.empty?
+  print "Country of birth?  "  
+  @country = STDIN.gets.chomp
+  print "Height in centimetres?  "  
+  @height = STDIN.gets.chomp
+end
+
+def show_students
+  print "\n", ("The students of Villains Academy").center(50), "\n", ("-------------").center(50, "------------------"), "\n"
+  @students.each.with_index(1) do |student, index|
+    puts "#{index}. #{student[:name]} (#{student[:cohort]} cohort, #{student[:height]}cm, #{student[:country]})"
   end
-  if File.exists?(@filename)
-    File.open(@filename, "r") do |file|
-      file.readlines.each do |line|
-        @name, @cohort, @country, @height = line.chomp.split(',')
-        student_info_to_hash
-      end
-    end
-    puts "Loaded all students from #{@filename}"
-  else
-    puts "Sorry, #{@filename} doesn't exist."
-    exit
-  end
+  print ("-------------").center(50, "------------------"), "\n", ("That's all the students!").center(50), "\n", "\n"
 end
 
 def save_students
